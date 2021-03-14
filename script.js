@@ -44,24 +44,20 @@ existingHistory.forEach(function(item){
 });
 
 
-function search(event){
-   
-
-   };
-
-
 searchForm.addEventListener('submit',function(event){
     event.preventDefault();
-    var searchValue = document.querySelector(searchForm.children[0].value);
+    var searchValue = document.querySelector("#searchInput");
+    console.log(searchValue.value)
     //.match ?????????
     // if(searchValue.matchs(historyList) ){
     
-    historyList.push(searchValue);
+    existingHistory.push(searchValue);
     searchInput.value="";
 
     //store searchValue to history
     localStorage.setItem("addToHistory",JSON.stringify(searchValue));
 
+    
     //render historyList
     var li = document.createElement("li");
     li.textContent = searchValue;
@@ -70,8 +66,8 @@ searchForm.addEventListener('submit',function(event){
 
 });
 
-historyList.addEventListener('click',function(e){
-   if(e.target.match('li')){
-       getCoordinates(e.target.id);
+historyList.addEventListener('click',function(event){
+   if(event.target.match('li')){
+       getCoordinates(event.target.id);
    }
 });
