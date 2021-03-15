@@ -27,7 +27,15 @@ function getCoordinates(searchValue){
 }
 
 function getWeather(city, lat, lon){
-
+    var url ='https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' +lon+ '&exclude=hourly,minutely,alerts&units=imperial&appid=' +appid;
+    
+    fetch(url)
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        if()
+    })
 } 
 
 function renderToday(city, today){
@@ -55,7 +63,7 @@ searchForm.addEventListener('submit',function(event){
     
 
     //store searchValue to history
-    localStorage.setItem("addToHistory",JSON.stringify(searchValue));
+    localStorage.setItem("addToHistory",JSON.stringify(searchValue.value));
 
     
     //render historyList
