@@ -56,13 +56,13 @@ function renderToday(city, today){
 
      //-->set text content to label and data property('Temperature:' + current.temp' + '°F')
      //  <label id="lbltipAddedComment"></label>
-     document.getElementById('#windSpeed').innerHTML = 'Wind Speed:' + current.wind_speed;
-     document.getElementById('#temp').innerHTML = 'Temperature:' + current.temp + '°F';
-     document.getElementById('#humidity').innerHTML = 'Humidity:' + current.humidity ;
-     document.getElementById('#uv').innerHTML = 'UV:' + current.uvi;
+     document.getElementById('windSpeed').innerHTML = 'Wind Speed:' + current.wind_speed;
+     document.getElementById('temp').innerHTML = 'Temperature:' + current.temp + '°F';
+     document.getElementById('humidity').innerHTML = 'Humidity:' + current.humidity ;
+     document.getElementById('uv').innerHTML = 'UV:' + current.uvi;
      var uvSpan = document.createElement("span");
      uvSpan.setAttribute("class",btn);
-     uvSpan.textContent= current.uvi
+     uvSpan.textContent= current.uvi;
      //--> if, else statement to set the color to green if under 3, yellow if between 3 and 7, or red if above 7  (.btn-danger .btn-warning  .btn-success)
 
 
@@ -105,6 +105,11 @@ searchForm.addEventListener('submit',function(event){
     historyList.appendChild(li);
 
     searchInput.value="";
+ 
+    getCoordinates();
+    getWeather();
+    renderToday();
+
 });
 
 historyList.addEventListener('click',function(event){
