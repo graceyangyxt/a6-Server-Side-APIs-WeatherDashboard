@@ -51,9 +51,11 @@ function renderToday(city, today){
    
     //-- set textContent to location name(location parameter) and 
     //the current date( moment or new Date().toLocalDateString())
-     var cardTitle= document.querySelector(".card-title");
-     cardTitle.textContent= //(location parameter) and the current date( moment or new Date().toLocalDateString())
-
+     
+    
+    var todayCardTitle= document.querySelector(".today-card-title");
+     todayCardTitle.textContent= //(location parameter) and the current date( moment or new Date().toLocalDateString())
+     
      //-->set text content to label and data property('Temperature:' + current.temp' + '°F')
      //  <label id="lbltipAddedComment"></label>
      document.getElementById('windSpeed').innerHTML = 'Wind Speed:' + current.wind_speed;
@@ -75,6 +77,30 @@ function renderToday(city, today){
 }
 
 function renderForecast(forecast){
+     var for1CardTitle= document.querySelector(".for1-card-title");
+     for1CardTitle.textContent=//
+     document.getElementById('for1temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
+     document.getElementById('for1humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/ ;
+
+     var for2CardTitle= document.querySelector(".for2-card-title");
+     for2CardTitle.textContent=//
+     document.getElementById('for2temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
+     document.getElementById('for2humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/ ;
+
+     var for3CardTitle= document.querySelector(".for3-card-title");
+     for3CardTitle.textContent=//
+     document.getElementById('for3temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
+     document.getElementById('for3humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/ ;
+
+     var for4CardTitle= document.querySelector(".for4-card-title");
+     for4CardTitle.textContent=//
+     document.getElementById('for4temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
+     document.getElementById('for4humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/ ;
+
+     var for5CardTitle= document.querySelector(".for5-card-title");
+     for5CardTitle.textContent=//
+     document.getElementById('for5temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
+     document.getElementById('for5humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/ ;
 
 }
 
@@ -90,6 +116,10 @@ searchForm.addEventListener('submit',function(event){
     console.log(searchValue.value)
     //.match ?????????
     // if(searchValue.matchs(historyList) ){
+    if(!searchValue){
+        console.error('You need to input a city name!');
+        return;
+    }
     
     existingHistory.push(searchValue);
     
@@ -104,11 +134,13 @@ searchForm.addEventListener('submit',function(event){
     // li.style.border = "1px solid black";
     historyList.appendChild(li);
 
-    searchInput.value="";
+    
  
     getCoordinates();
     getWeather();
     renderToday();
+
+    searchInput.value="";
 
 });
 

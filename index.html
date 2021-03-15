@@ -34,7 +34,7 @@
     <section class="container">
         <div class="content container-fluid">
             <div class="row">
-                <div class="left-column col-xl-3">
+                <div class="left-column col-xl-3 bg-light rounded-lg">
                     <h2>Search for a city</h2>
                     <form  id="search-form" method="POST">
                         <input type="text" name="searchInput" id="searchInput">
@@ -46,19 +46,55 @@
                 </div>
                 <div class="right-column col-xl-9">
                     <div id="today">
-                        <div class="card col-xl-3">
-                            <div class="card-body">
-                                <h2 class="card-title"></h2>
+                        <div class="card col-xl-9 border-0">
+                            <div class="card-body text-center bg-info p-3 rounded-lg m-2">
+                                <h3 class="today-card-title">q</h3>
                                 <img src="http://openweathermap.org/img/w/'+current.weather.icon+'.png">
-                                <p id="windSpeed"></p>
-                                <p id="temp"></p>
-                                <p id="humidity"></p>
-                                <p id="uv"></p>
+                                <p id="windSpeed">q</p>
+                                <p id="temp">q</p>
+                                <p id="humidity">q</p>
+                                <p id="uv">q</p>
                             </div>
                         </div>
                     </div>
                     <div id="forecast">
-
+                        <div class="card col-xl-9 border-0">
+                            <div class="card-body">
+                                <h3 class="for-card-title "> 5-Day Forecast:</h3>
+                                <div class="row">
+                                    <div class="col-sm bg-info p-3 rounded-lg m-2">
+                                        <h4 class="for1-card-title">q</h4>
+                                        <img src="">
+                                        <p id="for1temp">q</p>
+                                        <p id="for1humidity">q</p>
+                                    </div>
+                                    <div class="col-sm bg-info p-3 rounded-lg m-2">
+                                        <h4 class="for2-card-title">q</h4>
+                                        <img src="">
+                                        <p id="for2temp">q</p>
+                                        <p id="for2humidity">q</p>
+                                    </div>
+                                    <div class="col-sm bg-info p-3 rounded-lg m-2">
+                                        <h4 class="for3-card-title">q</h4>
+                                        <img src="">
+                                        <p id="for3temp">q</p>
+                                        <p id="for3humidity">q</p>
+                                    </div>
+                                    <div class="col-sm bg-info p-3 rounded-lg m-2">
+                                        <h4 class="for4-card-title">q</h4>
+                                        <img src="">
+                                        <p id="for4temp">q</p>
+                                        <p id="for4humidity">q</p>
+                                    </div>
+                                    <div class="col-sm bg-info p-3 rounded-lg m-2">
+                                        <h4 class="for5-card-title">q</h4>
+                                        <img src="">
+                                        <p id="for5temp">q</p>
+                                        <p id="for5humidity">q</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
