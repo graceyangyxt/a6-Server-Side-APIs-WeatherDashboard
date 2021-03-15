@@ -52,7 +52,7 @@ searchForm.addEventListener('submit',function(event){
     // if(searchValue.matchs(historyList) ){
     
     existingHistory.push(searchValue);
-    searchInput.value="";
+    
 
     //store searchValue to history
     localStorage.setItem("addToHistory",JSON.stringify(searchValue));
@@ -60,10 +60,11 @@ searchForm.addEventListener('submit',function(event){
     
     //render historyList
     var li = document.createElement("li");
-    li.textContent = searchValue;
+    li.textContent = searchValue.value;
+    // li.style.border = "1px solid black";
     historyList.appendChild(li);
 
-
+    searchInput.value="";
 });
 
 historyList.addEventListener('click',function(event){
