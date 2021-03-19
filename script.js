@@ -9,16 +9,18 @@ var searchForm = document.querySelector('#search-form');
 
 //getting the lat and long for the weather api call
 function getCoordinates(searchValue){
-    var url = 'http://api.openweathermap.org/geo/1.0/direct?q=' + location + '&limit=1&appid=' + appid;
+    console.log(searchValue)
+    console.log("this is the location:", searchValue)
+    var url = 'http://api.openweathermap.org/geo/1.0/direct?q=' + searchValue + '&limit=1&appid=' + appid;
 
     fetch(url)
     .then(function(response){
         return response.json();
     })
-    console.log(response)
     .then(function(data){
+        console.log("this is the getCoordinate data:",data)
         if(data.length){
-            getWeather(data[0].name,data[0].lat,data[0].lon);
+            getWeather(data[0].name,data[0].lat,data[0].lon); //passing argument
         }else{
             todayEl.innerHTML = 'No results founds!'; 
             forecastEl.innerHTML = '';
@@ -36,14 +38,22 @@ function getWeather(city, lat, lon){
         return response.json();
     })
     .then(function(data){
-    if(data.length){
-      
+        console.log("this is the getweather data:",data)
+    if(data){  //length only for array/string
+      renderToday(data.current)
+      for(var i=0; i<5;i++){
+        renderForecast(data.daily[i])
+      }
+    
+    }else{
+        todayEl.innerHTML = 'No results founds!'; 
+        forecastEl.innerHTML = '';
     }
     })
 } 
 
 
-function renderToday(city, today){
+function renderToday(current){
 
     // accept location name and current object from getWeather as parameters
 
@@ -63,7 +73,7 @@ function renderToday(city, today){
      document.getElementById('humidity').innerHTML = 'Humidity:' + current.humidity ;
      document.getElementById('uv').innerHTML = 'UV:' + current.uvi;
      var uvSpan = document.createElement("span");
-     uvSpan.setAttribute("class",btn);
+    //  uvSpan.setAttribute("class",btn);
      uvSpan.textContent= current.uvi;
      //--> if, else statement to set the color to green if under 3, yellow if between 3 and 7, or red if above 7  (.btn-danger .btn-warning  .btn-success)
 
@@ -77,6 +87,7 @@ function renderToday(city, today){
 }
 
 function renderForecast(forecast){
+    console.log("this is the daily forecast", forecast)
      var for1CardTitle= document.querySelector(".for1-card-title");
      for1CardTitle.textContent=//
      document.getElementById('for1temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
@@ -136,10 +147,10 @@ searchForm.addEventListener('submit',function(event){
 
     
  
-    getCoordinates();
-    getWeather();
-    renderToday();
-
+    getCoordinates(searchValue.value);
+    
+   
+    
     searchInput.value="";
 
 });
