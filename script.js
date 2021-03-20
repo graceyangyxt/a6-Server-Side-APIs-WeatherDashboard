@@ -4,6 +4,8 @@ var historyList = document.querySelector('#history');
 var todayEl= document.querySelector('#today');
 var forecastEl= document.querySelector('#forecast');
 var searchForm = document.querySelector('#search-form');
+var pTag= document.querySelectorAll('p');
+
 
 
 
@@ -42,9 +44,10 @@ function getWeather(location, lat, lon){
     if(data){  //length only for array/string
       renderToday(data.current,location)
       for(var i=0; i<5;i++){
-        renderForecast(data.daily[i],data.daily[i].temp,data.daily[i].humidity)
+        renderForecast(data.daily[i],data.daily[i].temp,data.daily[i].humidity,i)
       }
-    
+    console.log("this is the data.daily[i]",data.daily[i])
+    console.log(data.daily[i].temp)
     }else{
         todayEl.innerHTML = 'No results founds!'; 
         forecastEl.innerHTML = '';
@@ -63,18 +66,21 @@ function renderToday(current,location){
     //the current date( moment or new Date().toLocalDateString())
     
     var today= moment();
+
  
+    document.getElementById('today').style.visibility='visible';
     var todayCardTitle= document.querySelector(".today-card-title");
     console.log(location)
     todayCardTitle.textContent= location + today.format('l') ;//(location parameter) and the current date( moment or new Date().toLocalDateString())
      
      //-->set text content to label and data property('Temperature:' + current.temp' + '°F')
      //  <label id="lbltipAddedComment"></label>
-     document.getElementById('windSpeed').innerHTML = 'Wind Speed:' + current.wind_speed+ 'MPH';
-     document.getElementById('temp').innerHTML = 'Temperature:' + current.temp + '°F';
-     document.getElementById('humidity').innerHTML = 'Humidity:' + current.humidity+ '%' ;
-     document.getElementById('uv').innerHTML = 'UV Index:' + uvBtn;
-
+  
+     document.getElementById('windSpeed').innerHTML = 'Wind Speed:   ' + current.wind_speed+ 'MPH';
+     document.getElementById('temp').innerHTML = 'Temperature:   ' + current.temp + '°F';
+     document.getElementById('humidity').innerHTML = 'Humidity:   ' + current.humidity+ '%' ;
+     document.getElementById('uv').innerHTML = 'UV Index:   ';
+    
 
      var uvBtn = document.createElement('button');
      uvBtn.setAttribute("type","button");
@@ -100,34 +106,46 @@ function renderToday(current,location){
     
 }
 
-function renderForecast(daily,temp,humidity){
+function renderForecast(daily,temp,humidity,i){
 
-        console.log("this is the daily forecast temp", temp)
-        console.log("this is the daily forecast humidity", humidity)
+    console.log("this is the daily forecast temp", temp)
+    console.log("this is the daily forecast humidity", humidity)
+    console.log("this is the daily forecast ",daily)
+    
 
     var today= moment();
-    
+
+    var forCardTitle= document.querySelector('.for-card-title')
+    forCardTitle.textContent="5-Day Forecast:";
+    forCardTitle.style.textAlign='center';
+ 
+
     var foreCard=document.createElement("div");
     foreCard.setAttribute("class",'col-sm bg-info p-3 rounded-lg m-2');
+    foreCard.style.textAlign='center';
     var foreCardGroup=document.getElementById('foreCardGroup');
     foreCardGroup.appendChild(foreCard);
 
     console.log(foreCard)
-    for( var i=1; i<6;i++){
+  
 
-        var foreCardTitle=document.createElement("h4");
-        foreCardTitle[i].innerHTML=today.add(i, 'days').format('l');
-        foreCard.appendChild(foreCardTitle);
+    var foreCardTitle=document.createElement("h4");
+    foreCardTitle.style.fontSize='1.25em';
+    foreCardTitle.style.margin="4px 0 8px 0";
+    foreCardTitle.innerHTML=today.add(i+1, 'days').format('l');
+    foreCard.appendChild(foreCardTitle);
 
-        var foreTemp=document.createElement("p");
-        foreTemp.innerHTML='Temperature' + daily[i-1].temp + '°F';
-        foreCard.appendChild(foreTemp);
+    var foreTemp=document.createElement("p");
+    foreTemp.innerHTML='Temperature:  ' + daily.temp.day + '°F';
+    foreCard.appendChild(foreTemp);
+    console.log("this is the daily.temp",daily.temp.day)
 
-        var foreHumidity=document.createElement("p");
-        foreHumidity.innerHTML='Humidity' + daily[i-1].humidity+ '%';
-        foreCard.appendChild(foreHumidity);
+    var foreHumidity=document.createElement("p");
+    foreHumidity.innerHTML='Humidity:  ' + 
+    daily.humidity  + '%';
+    foreCard.appendChild(foreHumidity);
         
-    }
+    
 
     //  var for1CardTitle= document.querySelector(".for1-card-title");
     //  for1CardTitle.textContent=today.add(1, 'days').format('l');

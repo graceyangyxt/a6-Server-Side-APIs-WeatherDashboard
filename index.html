@@ -33,7 +33,7 @@
             <!-- right column
                .col-xl-9
             create 2 empty dives--add id(#today,#forcast)-->
-    <section class="container">
+    <section class="container col-xl-12 col-sm-12 col-md-12">
         <div class="content container-fluid">
             <div class="row">
                 <div class="left-column col-xl-3 bg-light rounded-lg">
@@ -46,23 +46,23 @@
                         </ul>
                     </form>
                 </div>
-                <div class="right-column col-xl-9">
-                    <div id="today">
-                        <div class="card col-xl-9 border-0">
-                            <div class="card-body text-center bg-info p-3 rounded-lg m-2">
-                                <h3 class="today-card-title">q</h3>
+                <div class="right-column col-xl-9 col-sm-12 col-md-12">
+                    <div id="today" style="visibility:hidden;">
+                        <div class="card border-0">
+                            <div class="card-body text-center bg-info p-5 rounded-lg m-2 ">
+                                <h3 class="today-card-title p-2"></h3>
                                 <img src="http://openweathermap.org/img/w/'+current.weather[0].icon+'.png">
-                                <p id="windSpeed">q</p>
-                                <p id="temp">q</p>
-                                <p id="humidity">q</p>
-                                <p id="uv">q</p>
+                                <p id="windSpeed"></p>
+                                <p id="temp"></p>
+                                <p id="humidity"></p>
+                                <p id="uv"></p>
                             </div>
                         </div>
                     </div>
                     <div id="forecast">
-                        <div class="card col-xl-9 border-0">
+                        <div class="card border-0">
                             <div class="card-body">
-                                <h3 class="for-card-title "> 5-Day Forecast:</h3>
+                                <h3 class="for-card-title"></h3>
                                 <div class="row" id="foreCardGroup">
                                     <!-- <div class="col-sm bg-info p-3 rounded-lg m-2">
                                         <h4 class="for1-card-title">q</h4>
