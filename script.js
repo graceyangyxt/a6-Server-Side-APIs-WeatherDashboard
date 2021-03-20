@@ -30,7 +30,7 @@ function getCoordinates(searchValue){
 }
 
 //call the weather api and get back json data
-function getWeather(city, lat, lon){
+function getWeather(location, lat, lon){
     var url ='https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' +lon+ '&exclude=hourly,minutely,alerts&units=imperial&appid=' +appid;
     
     fetch(url)
@@ -40,9 +40,9 @@ function getWeather(city, lat, lon){
     .then(function(data){
         console.log("this is the getweather data:",data)
     if(data){  //length only for array/string
-      renderToday(data.current)
+      renderToday(data.current,location)
       for(var i=0; i<5;i++){
-        renderForecast(data.daily[i])
+        renderForecast(data.daily[i],data.daily[i].temp,data.daily[i].humidity)
       }
     
     }else{
@@ -53,7 +53,7 @@ function getWeather(city, lat, lon){
 } 
 
 
-function renderToday(current){
+function renderToday(current,location){
 
     // accept location name and current object from getWeather as parameters
 
@@ -61,23 +61,37 @@ function renderToday(current){
    
     //-- set textContent to location name(location parameter) and 
     //the current date( moment or new Date().toLocalDateString())
-     
     
+    var today= moment();
+ 
     var todayCardTitle= document.querySelector(".today-card-title");
-     todayCardTitle.textContent= //(location parameter) and the current date( moment or new Date().toLocalDateString())
+    console.log(location)
+    todayCardTitle.textContent= location + today.format('l') ;//(location parameter) and the current date( moment or new Date().toLocalDateString())
      
      //-->set text content to label and data property('Temperature:' + current.temp' + '°F')
      //  <label id="lbltipAddedComment"></label>
-     document.getElementById('windSpeed').innerHTML = 'Wind Speed:' + current.wind_speed;
+     document.getElementById('windSpeed').innerHTML = 'Wind Speed:' + current.wind_speed+ 'MPH';
      document.getElementById('temp').innerHTML = 'Temperature:' + current.temp + '°F';
-     document.getElementById('humidity').innerHTML = 'Humidity:' + current.humidity ;
-     document.getElementById('uv').innerHTML = 'UV:' + current.uvi;
-     var uvSpan = document.createElement("span");
+     document.getElementById('humidity').innerHTML = 'Humidity:' + current.humidity+ '%' ;
+     document.getElementById('uv').innerHTML = 'UV Index:' + uvBtn;
+
+
+     var uvBtn = document.createElement('button');
+     uvBtn.setAttribute("type","button");
+     uvBtn.innerHTML= current.uvi;
+     document.getElementById('uv').appendChild(uvBtn);
+     
     //  uvSpan.setAttribute("class",btn);
-     uvSpan.textContent= current.uvi;
+     if(current.uvi<3){
+        uvBtn.style.background='green';
+     }else if(3<current.uvi<7){
+        uvBtn.style.background='yellow';
+     }else{
+        uvBtn.style.background='red';
+     }
      //--> if, else statement to set the color to green if under 3, yellow if between 3 and 7, or red if above 7  (.btn-danger .btn-warning  .btn-success)
-
-
+    
+    //  todayCardTitle.textContent='';
     //  creat span
     //  -->add any classes(.btn)
     //  -->set textContent to uv index property
@@ -86,32 +100,58 @@ function renderToday(current){
     
 }
 
-function renderForecast(forecast){
-    console.log("this is the daily forecast", forecast)
-     var for1CardTitle= document.querySelector(".for1-card-title");
-     for1CardTitle.textContent=//
-     document.getElementById('for1temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
-     document.getElementById('for1humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/ ;
+function renderForecast(daily,temp,humidity){
 
-     var for2CardTitle= document.querySelector(".for2-card-title");
-     for2CardTitle.textContent=//
-     document.getElementById('for2temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
-     document.getElementById('for2humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/ ;
+        console.log("this is the daily forecast temp", temp)
+        console.log("this is the daily forecast humidity", humidity)
 
-     var for3CardTitle= document.querySelector(".for3-card-title");
-     for3CardTitle.textContent=//
-     document.getElementById('for3temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
-     document.getElementById('for3humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/ ;
+    var today= moment();
+    
+    for( var i=1; i<6;i++){
+        var foreCard=document.createElement("div");
+        foreCard.setAttribute("class",'col-sm bg-info p-3 rounded-lg m-2');
+        var foreCardGroup=document.getElementById('foreCardGroup');
+        foreCardGroup.appendChild(foreCard);
 
-     var for4CardTitle= document.querySelector(".for4-card-title");
-     for4CardTitle.textContent=//
-     document.getElementById('for4temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
-     document.getElementById('for4humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/ ;
+        var foreCardTitle=document.createElement("h4");
+        foreCardTitle.innerHTML=today.add(i, 'days').format('l');
+        foreCard.appendChild(foreCardTitle);
 
-     var for5CardTitle= document.querySelector(".for5-card-title");
-     for5CardTitle.textContent=//
-     document.getElementById('for5temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
-     document.getElementById('for5humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/ ;
+        var foreTemp=document.createElement("p");
+        foreTemp.innerHTML='Temperature' + daily[i-1].temp + '°F';
+        foreCard.appendChild(foreTemp);
+
+        var foreHumidity=document.createElement("p");
+        foreHumidity.innerHTML='Humidity' + daily[i-1].humidity+ '%';
+        foreCard.appendChild(foreHumidity);
+        
+    }
+
+    //  var for1CardTitle= document.querySelector(".for1-card-title");
+    //  for1CardTitle.textContent=today.add(1, 'days').format('l');
+    // //  for1CardTitle.textContent=today.add(1, 'days').calendar().format('l');
+    //  document.getElementById('for1temp').innerHTML = 'Temperature' + daily[0].temp /*what is the api parameter for different days?*/ + '°F';
+    //  document.getElementById('for1humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/+ '%';
+
+    //  var for2CardTitle= document.querySelector(".for2-card-title");
+    //  for2CardTitle.textContent=today.add(2, 'days').format('l');
+    //  document.getElementById('for2temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
+    //  document.getElementById('for2humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/+ '%' ;
+
+    //  var for3CardTitle= document.querySelector(".for3-card-title");
+    //  for3CardTitle.textContent=//
+    //  document.getElementById('for3temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
+    //  document.getElementById('for3humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/ + '%';
+
+    //  var for4CardTitle= document.querySelector(".for4-card-title");
+    //  for4CardTitle.textContent=//
+    //  document.getElementById('for4temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
+    //  document.getElementById('for4humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/+ '%' ;
+
+    //  var for5CardTitle= document.querySelector(".for5-card-title");
+    //  for5CardTitle.textContent=//
+    //  document.getElementById('for5temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
+    //  document.getElementById('for5humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/+ '%' ;
 
 }
 
