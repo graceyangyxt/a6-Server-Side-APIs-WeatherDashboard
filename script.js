@@ -107,14 +107,16 @@ function renderForecast(daily,temp,humidity){
 
     var today= moment();
     
+    var foreCard=document.createElement("div");
+    foreCard.setAttribute("class",'col-sm bg-info p-3 rounded-lg m-2');
+    var foreCardGroup=document.getElementById('foreCardGroup');
+    foreCardGroup.appendChild(foreCard);
+
+    console.log(foreCard)
     for( var i=1; i<6;i++){
-        var foreCard=document.createElement("div");
-        foreCard.setAttribute("class",'col-sm bg-info p-3 rounded-lg m-2');
-        var foreCardGroup=document.getElementById('foreCardGroup');
-        foreCardGroup.appendChild(foreCard);
 
         var foreCardTitle=document.createElement("h4");
-        foreCardTitle.innerHTML=today.add(i, 'days').format('l');
+        foreCardTitle[i].innerHTML=today.add(i, 'days').format('l');
         foreCard.appendChild(foreCardTitle);
 
         var foreTemp=document.createElement("p");
