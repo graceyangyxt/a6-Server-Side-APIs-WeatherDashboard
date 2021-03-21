@@ -14,7 +14,7 @@ var foreCardGroup=document.getElementById('foreCardGroup');
 function getCoordinates(searchValue){
     console.log(searchValue)
     console.log("this is the location:", searchValue)
-    var url = 'http://api.openweathermap.org/geo/1.0/direct?q=' + searchValue + '&limit=1&appid=' + appid;
+    var url = 'https://api.openweathermap.org/geo/1.0/direct?q=' + searchValue + '&limit=1&appid=' + appid;
 
     fetch(url)
     .then(function(response){
