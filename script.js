@@ -24,7 +24,7 @@ function getCoordinates(searchValue){
         if(data.length){
             getWeather(data[0].name,data[0].lat,data[0].lon); //passing argument
         }else{
-            todayEl.innerHTML = 'No results founds!'; 
+            todayEl.innerHTML = 'No results found!'; 
             forecastEl.innerHTML = '';
         }
     })
@@ -57,35 +57,42 @@ function getWeather(location, lat, lon){
 
 
 function renderToday(current,location){
-
-    // accept location name and current object from getWeather as parameters
-
-    //clear out the today container -->  innerHTML=''
-   
-    //-- set textContent to location name(location parameter) and 
-    //the current date( moment or new Date().toLocalDateString())
     
     var today= moment();
-
- 
-    document.getElementById('today').style.visibility='visible';
-    var todayCardTitle= document.querySelector(".today-card-title");
-    console.log(location)
-    todayCardTitle.textContent= location + today.format('l') ;//(location parameter) and the current date( moment or new Date().toLocalDateString())
-     
-     //-->set text content to label and data property('Temperature:' + current.temp' + '°F')
-     //  <label id="lbltipAddedComment"></label>
-  
-     document.getElementById('windSpeed').innerHTML = 'Wind Speed:   ' + current.wind_speed+ 'MPH';
-     document.getElementById('temp').innerHTML = 'Temperature:   ' + current.temp + '°F';
-     document.getElementById('humidity').innerHTML = 'Humidity:   ' + current.humidity+ '%' ;
-     document.getElementById('uv').innerHTML = 'UV Index:   ';
     
+    var todayCard=document.createElement("div");
+    todayCard.setAttribute("class",'text-center bg-info p-5 rounded-lg m-2 ');
+    todayCard.style.textAlign='center';
+    var todayCardGroup=document.getElementById('todayCardGroup');
+    todayCardGroup.appendChild(todayCard);
+
+    var todayCardTitle=document.createElement("h3");
+    todayCardTitle.style.padding="2px";
+    todayCardTitle.innerHTML=location + today.format('l') ;
+    todayCard.appendChild(todayCardTitle);
+
+    var img;
+
+    var todayTemp=document.createElement("p");
+    todayTemp.innerHTML='Temperature:  ' + current.temp + '°F';
+    todayCard.appendChild(todayTemp);
+
+    var todayHumidity=document.createElement("p");
+    todayHumidity.innerHTML='Humidity:  ' + 
+    current.humidity  + '%';
+    todayCard.appendChild(todayHumidity);
+
+    var todayWindSpeed=document.createElement("p");
+    todayWindSpeed.innerHTML='Wind Speed:   ' + current.wind_speed+ 'MPH';
+    todayCard.appendChild(todayWindSpeed);
 
      var uvBtn = document.createElement('button');
      uvBtn.setAttribute("type","button");
+     uvBtn.setAttribute("style","borde-radius: 10px");
      uvBtn.innerHTML= current.uvi;
-     document.getElementById('uv').appendChild(uvBtn);
+     var uv =document.createElement('p');
+     uv.innerHTML='UV Index:   ';
+     uv.appendChild(uvBtn);
      
     //  uvSpan.setAttribute("class",btn);
      if(current.uvi<3){
@@ -95,14 +102,7 @@ function renderToday(current,location){
      }else{
         uvBtn.style.background='red';
      }
-     //--> if, else statement to set the color to green if under 3, yellow if between 3 and 7, or red if above 7  (.btn-danger .btn-warning  .btn-success)
     
-    //  todayCardTitle.textContent='';
-    //  creat span
-    //  -->add any classes(.btn)
-    //  -->set textContent to uv index property
-    //  --> if, else statement to set the color to green if under 3, yellow if between 3 and 7, or red if above 7  (.btn-danger .btn-warning  .btn-success)
-
     
 }
 
@@ -145,33 +145,6 @@ function renderForecast(daily,temp,humidity,i){
     daily.humidity  + '%';
     foreCard.appendChild(foreHumidity);
         
-    
-
-    //  var for1CardTitle= document.querySelector(".for1-card-title");
-    //  for1CardTitle.textContent=today.add(1, 'days').format('l');
-    // //  for1CardTitle.textContent=today.add(1, 'days').calendar().format('l');
-    //  document.getElementById('for1temp').innerHTML = 'Temperature' + daily[0].temp /*what is the api parameter for different days?*/ + '°F';
-    //  document.getElementById('for1humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/+ '%';
-
-    //  var for2CardTitle= document.querySelector(".for2-card-title");
-    //  for2CardTitle.textContent=today.add(2, 'days').format('l');
-    //  document.getElementById('for2temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
-    //  document.getElementById('for2humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/+ '%' ;
-
-    //  var for3CardTitle= document.querySelector(".for3-card-title");
-    //  for3CardTitle.textContent=//
-    //  document.getElementById('for3temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
-    //  document.getElementById('for3humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/ + '%';
-
-    //  var for4CardTitle= document.querySelector(".for4-card-title");
-    //  for4CardTitle.textContent=//
-    //  document.getElementById('for4temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
-    //  document.getElementById('for4humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/+ '%' ;
-
-    //  var for5CardTitle= document.querySelector(".for5-card-title");
-    //  for5CardTitle.textContent=//
-    //  document.getElementById('for5temp').innerHTML = 'Temperature' + /*what is the api parameter for different days?*/ + '°F';
-    //  document.getElementById('for5humidity').innerHTML = 'Humidity'  /*what is the api parameter for different days?*/+ '%' ;
 
 }
 
@@ -183,6 +156,7 @@ existingHistory.forEach(function(item){
 
 searchForm.addEventListener('submit',function(event){
     event.preventDefault();
+
     var searchValue = document.querySelector("#searchInput");
     console.log(searchValue.value)
     //.match ?????????
