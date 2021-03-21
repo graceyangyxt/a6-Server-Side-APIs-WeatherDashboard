@@ -43,6 +43,9 @@ function getWeather(location, lat, lon){
     .then(function(data){
         console.log("this is the getweather data:",data)
     if(data){  //length only for array/string
+
+    todayCardGroup.innerHTML = "";
+    foreCardGroup.innerHTML = "";
       renderToday(data.current,location,data.current.weather[0].icon)
       for(var i=0; i<5;i++){
         renderForecast(data.daily[i],data.daily[i].temp,data.daily[i].humidity,i,data.daily[i].weather[0].icon)
@@ -67,10 +70,16 @@ function renderToday(current,location,icon){
     
     todayCardGroup.appendChild(todayCard);
 
-    var todayCardTitle=document.createElement("h3");
-    todayCardTitle.style.padding="2px";
-    todayCardTitle.innerHTML=location + today.format('l') ;
-    todayCard.appendChild(todayCardTitle);
+    var todayCardTitle1=document.createElement("h3");
+    var todayCardTitle2=document.createElement("h4");
+    todayCardTitle1.style.fontSize='1.75em';
+    todayCardTitle2.style.fontSize='1.25em';
+    todayCardTitle1.style.paddingBottom="10px";
+    todayCardTitle1.style.marginBottom="30px";
+    todayCardTitle1.innerHTML=location;
+    todayCardTitle2.innerHTML=today.format('l') ;
+    todayCard.appendChild(todayCardTitle1);
+    todayCard.appendChild(todayCardTitle2);
 
     var todayImg=document.createElement('IMG');
     todayImg.setAttribute('src','http://openweathermap.org/img/wn/'+ icon +'@2x.png');
@@ -143,9 +152,13 @@ function renderForecast(daily,temp,humidity,i,dailyIcon){
     foreImg.setAttribute('src','http://openweathermap.org/img/wn/'+ dailyIcon +'@2x.png');
     foreCard.appendChild(foreImg);
 
-    var foreTemp=document.createElement("p");
-    foreTemp.innerHTML='Temperature:  ' + daily.temp.day + '°F';
-    foreCard.appendChild(foreTemp);
+    var foreTemp1=document.createElement("p");
+    var foreTemp2=document.createElement("p");
+    foreTemp1.innerHTML='Temperature:';
+    foreTemp2.innerHTML= daily.temp.day + '°F';
+    foreTemp1.style.marginBottom='0';
+    foreCard.appendChild(foreTemp1);
+    foreCard.appendChild(foreTemp2);
     console.log("this is the daily.temp",daily.temp.day)
 
     var foreHumidity=document.createElement("p");
@@ -164,6 +177,8 @@ existingHistory.forEach(function(item){
 
 searchForm.addEventListener('submit',function(event){
     event.preventDefault();
+
+   
 
     var searchValue = document.querySelector("#searchInput");
     console.log(searchValue.value)
@@ -194,7 +209,7 @@ searchForm.addEventListener('submit',function(event){
    
     
     searchInput.value="";
-
+   
 });
 
 historyList.addEventListener('click',function(event){
