@@ -82,7 +82,7 @@ function renderToday(current,location,icon){
     todayCard.appendChild(todayCardTitle2);
 
     var todayImg=document.createElement('IMG');
-    todayImg.setAttribute('src','http://openweathermap.org/img/wn/'+ icon +'@2x.png');
+    todayImg.setAttribute('src','https://openweathermap.org/img/wn/'+ icon +'@2x.png');
     todayCard.appendChild(todayImg);
 
     var todayTemp=document.createElement("p");
@@ -149,7 +149,7 @@ function renderForecast(daily,temp,humidity,i,dailyIcon){
     foreCard.appendChild(foreCardTitle);
 
     var foreImg=document.createElement('IMG');
-    foreImg.setAttribute('src','http://openweathermap.org/img/wn/'+ dailyIcon +'@2x.png');
+    foreImg.setAttribute('src','https://openweathermap.org/img/wn/'+ dailyIcon +'@2x.png');
     foreCard.appendChild(foreImg);
 
     var foreTemp1=document.createElement("p");
