@@ -1,11 +1,12 @@
 var appid = '3bef91aa5e085a35130f55d9d026bb4d';
 // variable to hold our search history
 var historyList = document.querySelector('#history');
-var todayEl= document.querySelector('#today');
-var forecastEl= document.querySelector('#forecast');
+// var todayEl= document.querySelector('#today');
+// var forecastEl= document.querySelector('#forecast');
 var searchForm = document.querySelector('#search-form');
 var pTag= document.querySelectorAll('p');
-
+var todayCardGroup=document.getElementById('todayCardGroup');
+var foreCardGroup=document.getElementById('foreCardGroup');
 
 
 
@@ -24,8 +25,8 @@ function getCoordinates(searchValue){
         if(data.length){
             getWeather(data[0].name,data[0].lat,data[0].lon); //passing argument
         }else{
-            todayEl.innerHTML = 'No results found!'; 
-            forecastEl.innerHTML = '';
+            todayCardGroup.innerHTML = 'No results found!'; 
+            foreCardGroup.innerHTML = '';
         }
     })
 
@@ -42,28 +43,28 @@ function getWeather(location, lat, lon){
     .then(function(data){
         console.log("this is the getweather data:",data)
     if(data){  //length only for array/string
-      renderToday(data.current,location)
+      renderToday(data.current,location,data.current.weather[0].icon)
       for(var i=0; i<5;i++){
-        renderForecast(data.daily[i],data.daily[i].temp,data.daily[i].humidity,i)
+        renderForecast(data.daily[i],data.daily[i].temp,data.daily[i].humidity,i,data.daily[i].weather[0].icon)
       }
     console.log("this is the data.daily[i]",data.daily[i])
     console.log(data.daily[i].temp)
     }else{
-        todayEl.innerHTML = 'No results founds!'; 
-        forecastEl.innerHTML = '';
+        todayCardGroup.innerHTML = 'No results founds!'; 
+        foreCardGroup.innerHTML = '';
     }
     })
 } 
 
 
-function renderToday(current,location){
+function renderToday(current,location,icon){
     
     var today= moment();
     
     var todayCard=document.createElement("div");
     todayCard.setAttribute("class",'text-center bg-info p-5 rounded-lg m-2 ');
     todayCard.style.textAlign='center';
-    var todayCardGroup=document.getElementById('todayCardGroup');
+    
     todayCardGroup.appendChild(todayCard);
 
     var todayCardTitle=document.createElement("h3");
@@ -71,7 +72,9 @@ function renderToday(current,location){
     todayCardTitle.innerHTML=location + today.format('l') ;
     todayCard.appendChild(todayCardTitle);
 
-    var img;
+    var todayImg=document.createElement('IMG');
+    todayImg.setAttribute('src','http://openweathermap.org/img/wn/'+ icon +'@2x.png');
+    todayCard.appendChild(todayImg);
 
     var todayTemp=document.createElement("p");
     todayTemp.innerHTML='Temperature:  ' + current.temp + '°F';
@@ -93,6 +96,7 @@ function renderToday(current,location){
      var uv =document.createElement('p');
      uv.innerHTML='UV Index:   ';
      uv.appendChild(uvBtn);
+     todayCard.appendChild(uv);
      
     //  uvSpan.setAttribute("class",btn);
      if(current.uvi<3){
@@ -106,7 +110,7 @@ function renderToday(current,location){
     
 }
 
-function renderForecast(daily,temp,humidity,i){
+function renderForecast(daily,temp,humidity,i,dailyIcon){
 
     console.log("this is the daily forecast temp", temp)
     console.log("this is the daily forecast humidity", humidity)
@@ -134,6 +138,10 @@ function renderForecast(daily,temp,humidity,i){
     foreCardTitle.style.margin="4px 0 8px 0";
     foreCardTitle.innerHTML=today.add(i+1, 'days').format('l');
     foreCard.appendChild(foreCardTitle);
+
+    var foreImg=document.createElement('IMG');
+    foreImg.setAttribute('src','http://openweathermap.org/img/wn/'+ dailyIcon +'@2x.png');
+    foreCard.appendChild(foreImg);
 
     var foreTemp=document.createElement("p");
     foreTemp.innerHTML='Temperature:  ' + daily.temp.day + '°F';
