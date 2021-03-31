@@ -12,8 +12,8 @@ var foreCardGroup=document.getElementById('foreCardGroup');
 
 //getting the lat and long for the weather api call
 function getCoordinates(searchValue){
-    console.log(searchValue)
-    console.log("this is the location:", searchValue)
+    // console.log(searchValue)
+    // console.log("this is the location:", searchValue)
     var url = 'https://api.openweathermap.org/geo/1.0/direct?q=' + searchValue + '&limit=1&appid=' + appid;
 
     fetch(url)
@@ -21,7 +21,7 @@ function getCoordinates(searchValue){
         return response.json();
     })
     .then(function(data){
-        console.log("this is the getCoordinate data:",data)
+        // console.log("this is the getCoordinate data:",data)
         if(data.length){
             getWeather(data[0].name,data[0].lat,data[0].lon); //passing argument
         }else{
@@ -121,9 +121,9 @@ function renderToday(current,location,icon){
 
 function renderForecast(daily,temp,humidity,i,dailyIcon){
 
-    console.log("this is the daily forecast temp", temp)
-    console.log("this is the daily forecast humidity", humidity)
-    console.log("this is the daily forecast ",daily)
+    // console.log("this is the daily forecast temp", temp)
+    // console.log("this is the daily forecast humidity", humidity)
+    // console.log("this is the daily forecast ",daily)
     
 
     var today= moment();
@@ -139,7 +139,7 @@ function renderForecast(daily,temp,humidity,i,dailyIcon){
     var foreCardGroup=document.getElementById('foreCardGroup');
     foreCardGroup.appendChild(foreCard);
 
-    console.log(foreCard)
+    // console.log(foreCard)
   
 
     var foreCardTitle=document.createElement("h4");
@@ -159,7 +159,7 @@ function renderForecast(daily,temp,humidity,i,dailyIcon){
     foreTemp1.style.marginBottom='0';
     foreCard.appendChild(foreTemp1);
     foreCard.appendChild(foreTemp2);
-    console.log("this is the daily.temp",daily.temp.day)
+    // console.log("this is the daily.temp",daily.temp.day)
 
     var foreHumidity=document.createElement("p");
     foreHumidity.innerHTML='Humidity:  ' + 
@@ -169,16 +169,16 @@ function renderForecast(daily,temp,humidity,i,dailyIcon){
 
 }
 
-var existingHistory= JSON.parse(localStorage.getItem('history'))||[];
-existingHistory.forEach(function(item){
-    addRowToHistoryList(item);
+var existingHistory= JSON.parse(localStorage.getItem('addToHistory'))||[];
+existingHistory.forEach(function(searchValue){
+    var li = document.createElement("li");
+    li.textContent = searchValue;
+    historyList.appendChild(li);
 });
 
 
 searchForm.addEventListener('submit',function(event){
     event.preventDefault();
-
-   
 
     var searchValue = document.querySelector("#searchInput");
     console.log(searchValue.value)
@@ -187,33 +187,29 @@ searchForm.addEventListener('submit',function(event){
     if(!searchValue){
         console.error('You need to input a city name!');
         return;
-    }
-    
-    existingHistory.push(searchValue);
-    
-
+    }  
+    existingHistory.push(searchValue.value);
+    console.log(existingHistory)
     //store searchValue to history
-    localStorage.setItem("addToHistory",JSON.stringify(searchValue.value));
-
-    
+    localStorage.setItem("addToHistory",JSON.stringify(existingHistory)); 
     //render historyList
     var li = document.createElement("li");
     li.textContent = searchValue.value;
     // li.style.border = "1px solid black";
     historyList.appendChild(li);
-
-    
- 
-    getCoordinates(searchValue.value);
-    
-   
-    
-    searchInput.value="";
-   
+    getCoordinates(searchValue.value);     
+    searchInput.value="";  
 });
 
 historyList.addEventListener('click',function(event){
-   if(event.target.match('li')){
-       getCoordinates(event.target.id);
-   }
+    event.preventDefault();
+//    if(event.target.match('li')){
+//       getCoordinates(event.target.id);
+//     console.log(event.target.id)
+//    }
+      console.log("have been clicked")
+      console.log(event.target) //event.target is a null list
+      console.log(event.target.innerHTML)
+      getCoordinates(event.target.innerHTML);  
 });
+
